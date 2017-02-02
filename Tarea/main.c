@@ -1,3 +1,9 @@
+/*Universidad Simón Bolívar
+ * Manuel Gomes 11-10375
+ * Código del programa principal.
+ */
+
+
 #include "queues.h"
 
 void imprimirOpciones(){
@@ -64,11 +70,11 @@ int main(int argc, char *argv[]) {
       Imprime(s);
     }
     else if (op == 5) {
-      FILE *saved = stdout;
-      stdout = fopen(argv[2], "w");
-      Imprime(s);
-      fclose(stdout);
-      stdout = saved;
+      FILE *fp = fopen(argv[2], "w");
+      imprimeArchivo(s, fp);
+      fclose(fp);
+      eliminarEst(s);
+      break;
 
     }
   }

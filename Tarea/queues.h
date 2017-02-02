@@ -1,5 +1,6 @@
 /* Estructuras para resolver el problema
  * Manuel Gomes 11-10375
+ * Archivo con el flujo principal del programa.
  */
 
 #include <stdio.h>
@@ -46,3 +47,5 @@ void CambiarEstado(EstrucSched *, Proceso* , char);
 EstrucSched *Construye(char *);
 void imprimecola(Cola *);
 void Imprime(EstrucSched *);
+void imprimeArchivo(EstrucSched *, FILE *);
+void eliminarEst(EstrucSched *);

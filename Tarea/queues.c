@@ -186,15 +186,19 @@ void ElimProcesoE(EstrucSched *s) {
 }
 
 void eliminarProcs(Proceso *p) {
-  if (p -> next != NULL)
-    eliminarProcs(p -> next);
+  if (p -> next != NULL){
+    eliminarProcs(p -> next);}
   destruirProceso(p);
 }
 
 
 void eliminarProcesosCola(Cola *q)  {
-  eliminarProcs(q -> head);
-  free(q);
+  if (q -> head == NULL)
+    free(q);
+  else {
+    eliminarProcs(q -> head);
+    free(q);
+  }
 }
 
 
@@ -203,6 +207,7 @@ Proceso *ProxProceso(EstrucSched *s) {
   if (s -> q0 -> head != NULL) {
     aux = s -> q0 -> head;
     s -> q0 -> head = aux -> next;
+    aux -> next = NULL;
     encolar(s -> q0, aux);
     CambiarEstado(s, aux, 'E');
     return s -> q0 -> tail;
@@ -210,6 +215,7 @@ Proceso *ProxProceso(EstrucSched *s) {
   else if (s -> q1 -> head != NULL) {
     aux = s -> q1 -> head;
     s -> q1 -> head = aux -> next;
+    aux -> next = NULL;
     encolar(s -> q1, aux);
     CambiarEstado(s, aux, 'E');
     return s -> q1 -> tail;
@@ -217,6 +223,7 @@ Proceso *ProxProceso(EstrucSched *s) {
   else if (s -> q2 -> head != NULL) {
     aux = s -> q2 -> head;
     s -> q2 -> head = aux -> next;
+    aux -> next = NULL;
     encolar(s -> q2, aux);
     CambiarEstado(s, aux, 'E');
     return s -> q2 -> tail;
@@ -224,6 +231,7 @@ Proceso *ProxProceso(EstrucSched *s) {
   else if (s -> q3 -> head != NULL) {
     aux = s -> q3 -> head;
     s -> q3 -> head = aux -> next;
+    aux -> next = NULL;
     encolar(s -> q3, aux);
     CambiarEstado(s, aux, 'E');
     return s -> q3 -> tail;
@@ -231,6 +239,7 @@ Proceso *ProxProceso(EstrucSched *s) {
   else if (s -> q4 -> head != NULL) {
     aux = s -> q4 -> head;
     s -> q4 -> head = aux -> next;
+    aux -> next = NULL;
     encolar(s -> q4, aux);
     CambiarEstado(s, aux, 'E');
     return s -> q4 -> tail;
@@ -238,6 +247,7 @@ Proceso *ProxProceso(EstrucSched *s) {
   else if (s -> q5 -> head != NULL) {
     aux = s -> q5 -> head;
     s -> q5 -> head = aux -> next;
+    aux -> next = NULL;
     encolar(s -> q5, aux);
     CambiarEstado(s, aux, 'E');
     return s -> q5 -> tail;
@@ -292,8 +302,6 @@ EstrucSched *Construye(char *filename) {
         else if (i > 4)
           break;
         i++;
-
-        //printf("%s\n", words);
         words = strtok(NULL, " ");
       }
 
@@ -311,7 +319,7 @@ EstrucSched *Construye(char *filename) {
 
 void imprimecola(Cola * q) {
   if (q -> head == NULL) {
-    return;
+    printf( "Cola vacía.\n\n");
   }
   else {
     Proceso *aux = q -> head;
@@ -328,17 +336,59 @@ void imprimecola(Cola * q) {
 
 
 void Imprime(EstrucSched *s ) {
-  EstrucSched * aux =  s;
   printf("Cola q0:  \n" );
-  imprimecola(aux -> q0);
+  imprimecola(s -> q0);
   printf("Cola q1:  \n" );
-  imprimecola(aux -> q1);
+  imprimecola(s -> q1);
   printf("Cola q2:  \n" );
-  imprimecola(aux -> q2);
+  imprimecola(s -> q2);
   printf("Cola q3:  \n" );
-  imprimecola(aux -> q3);
+  imprimecola(s -> q3);
   printf("Cola q4:  \n" );
-  imprimecola(aux -> q4);
+  imprimecola(s -> q4);
   printf("Cola q5:  \n" );
-  imprimecola(aux -> q5);
+  imprimecola(s -> q5);
+}
+
+void imprimeColaArchivo(FILE *fp, Cola *q) {
+  if (q -> head == NULL) {
+    fprintf(fp, "Cola vacía.\n\n");
+  }
+  else {
+    Proceso *aux = q -> head;
+    fprintf(fp, " %ld %c %d %f %s  ", aux -> pid, aux -> status, aux -> prio,
+                                      aux -> time, aux -> command);
+    while (aux -> next != NULL) {
+      aux = aux -> next;
+      fprintf(fp, " %ld %c %d %f %s  ", aux -> pid, aux -> status, aux -> prio,
+                                        aux -> time, aux -> command);
+    }
+    fprintf(fp, "\n");
+  }
+}
+
+void imprimeArchivo(EstrucSched *s, FILE *fp ) {
+  fprintf(fp, "Cola q0:  \n" );
+  imprimeColaArchivo(fp, s -> q0);
+  fprintf(fp, "Cola q1:  \n" );
+  imprimeColaArchivo(fp, s -> q1);
+  fprintf(fp, "Cola q2:  \n" );
+  imprimeColaArchivo(fp, s -> q2);
+  fprintf(fp, "Cola q3:  \n" );
+  imprimeColaArchivo(fp, s -> q3);
+  fprintf(fp, "Cola q4:  \n" );
+  imprimeColaArchivo(fp, s -> q4);
+  fprintf(fp, "Cola q5:  \n" );
+  imprimeColaArchivo(fp, s -> q5);
+}
+
+
+void eliminarEst(EstrucSched * s) {
+  eliminarProcesosCola(s -> q0);
+  eliminarProcesosCola(s -> q1);
+  eliminarProcesosCola(s -> q2);
+  eliminarProcesosCola(s -> q3);
+  eliminarProcesosCola(s -> q4);
+  eliminarProcesosCola(s -> q5);
+  free(s);
 }

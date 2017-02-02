@@ -1,0 +1,42 @@
+Universidad Simón Bolívar
+Manuel Gomes 11-10375
+Archivo con explicaciones breves referentes a la implementación de la tarea.
+
+
+El Código de la tarea está estructurado en un archivo main (main.c), un header
+de las colas (queues.h) y un archivo con la implementación de las colas.
+
+En el main se encuentra la función imprimirOpciones() que es utilizada, como su
+nombre lo indica, para la impresión de las opciones en pantalla para que el
+usuario pueda interactuar con el sistema. Además se encuentra el main que realiza
+la tarea general del prigrama y se encarga de la interacción con el usuario.
+
+En el archivo queues.h encontramos las estructuras de datos creadas para la
+resolución del problema, las cuales son Cola (implementada como una lista enlazada
+de procesos, con un apuntador al primero y al último), Proceso (estructura que
+contiene campos que representan los atributos de los procesos ficticios) y
+EstrucSched ( implementada como una estructura que contiene seis colas de procesos
+ficticios), las cuales vienen dadas por el enunciado del problema, además
+encontramos las firmas de las funciones desarrolladas para que estas puedan
+ser alcanzadas desde el main.
+
+Por último, en el archivo queues.c, se encuentran implementadas las funciones
+requeridas para la resolución del problema, en este archivo están las funciones
+requeridas por el enunciado y mantienen el nombre original. Cabe destacar que en
+algunos casos se modificó el tipo de parámetros que estas funciones recibían,
+por ejemplo, en el caso de
+"void CambiarEstado(EstrucSched *s, Proceso* p, Estado newestado)" se reemplazó
+la estructura Estado por un simple char, ya que es conocido que no es buena
+práctica crear una estructura con un único campo que sea de un tipo definido,
+añadido a esto, reduciría la eficiencia del programa e implicaría el uso y manejo
+de memoria dinámica sin justificación alguna.
+Por otro lado, con fin de mantener las funciones dadas por el enunciado lo más
+parecidas al mismo posible, para evitar así penalidades, no se utilizaron todos
+los parámetros de ciertas funciones ya que no fueron necesarios, por ejemplo,
+ en la función "void CambiarEstado(EstrucSched *, Proceso* , char)" no hace falta
+ la estructura de datos ya que se tiene una referencia al Proceso que se desea
+ alterar.
+
+Además se entrega con el archivo Makefile, el cual es utilizado para la
+compilación de la tarea, usando el comando make. Para borrar los archivos
+temprales y el programa se utiliza el comando make clean.
