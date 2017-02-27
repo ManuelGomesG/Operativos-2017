@@ -1,4 +1,8 @@
 
+/*
+ * Manuel Gomes 11-10375
+ * Estructuras para resolver el problema.
+ */
 
 
 
@@ -22,7 +26,7 @@
 
 
 typedef struct _directory  {
-  char name[256];
+  char name[PATH_MAX];
   struct _directory* next;
 } Directory;
 
@@ -45,12 +49,12 @@ typedef struct _regfile {
   char iROTH;
   char iWOTH;
   char iXOTH;
-  char* oname;
-  char* gname;
+  char oname[128];
+  char gname[128];
   char mdate[10];
   char adate[10];
-  char* path;
-  struct _file* next;
+  char path[PATH_MAX];
+  struct _regfile* next;
 } RegFile;
 
 typedef struct _subDir {
@@ -65,12 +69,11 @@ typedef struct _subDir {
   char iROTH;
   char iWOTH;
   char iXOTH;
-  char* oname;
-  char* gname;
+  char oname[128];
+  char gname[128];
   char mdate[10];
   char adate[10];
-  char* path;
-  struct _file* next;
+  char path[PATH_MAX];
   int files;
   int sumSize;
   struct _subDir* next;
@@ -79,3 +82,8 @@ typedef struct _subDir {
 
 PDList* parentlist(char*);
 void printPDL(PDList*);
+SubDir* childlist(char*, int);
+void printSD(SubDir*);
+Directory* getNth(PDList*, int);
+void report(SubDir*);
+void preport(SubDir*);

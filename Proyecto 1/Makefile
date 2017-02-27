@@ -1,4 +1,4 @@
-CCFLAGS = -g -Wall
+CCFLAGS = -g -Wall -std=gnu99
 
 els: main.c listing.o
 	gcc $(CCFLAGS) main.c listing.o  -o $@
