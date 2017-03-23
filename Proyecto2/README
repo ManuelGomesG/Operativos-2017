@@ -1,0 +1,51 @@
+Manuel Gomes
+11-10375
+Universidad Simón Bolívariables
+23/03/2017
+
+
+
+Pequeño ressumen del programa que lista los directorios recursivamente utilizando
+hilos.
+
+El Programa se invoca de la siguiente manera:
+./tls [-h] | [-n i] [-d directorio] [ salida ]
+
+El código consta de 2 archivos .c (main y listing), un archivo .h (listing) y el
+makefile.
+
+Para compilar se debe ejecutar el comando make, y para eliminar los ejecutables
+y los .o creados se debe ejecutar make clean.
+
+El main.c es el archivo que contiene el flujo básico del programa que resuelve
+el problema propuesto, además de encargarse de manejar los hilos (crearlos y
+esperarlos).
+
+En el archivo listing.c se encuentran las funciones desarrolladas para resolver
+problema.
+
+En el archivo listing.h Se encuentran las firmas de las funciones para poder ser
+utilizadas en el main y las estructuras que se implementaron para la resolución
+del problema.
+
+El Makefile, como se mencionó anteriormente, es el encargado de compilar el
+código y limpiar una vez que deje de ser usado.
+
+El problema se atacó de la siguiente manera:
+Se creó una cola cuyos elementos eran simples nodos que contienen los nombres de
+los subdirectorios encontrados al explorar su directorio padre, estos directorios
+serán explorados al igual que su directorio padre, y así de manera recursiva.
+Adicionalmente se implementó otra cola para guardar los elementos ya explorados,
+(directorios, con la cantidad de archivos regulares que contienen, el espacio
+que ocupan y el tid del hilo que los exploró).
+El hilo principal realiza el primer recorrido, agregando a la cola de directorios
+a ser explorados todos los archivos de tipo directorio que encuentre. Por cada
+archivo regular, aumenta un contador y actualiza una vairable que contiene el
+espacio utilizado por los mismos. Una vez terminado este recorrido procede a
+agregar el resultado a la cola de directorios explorados para luego ser impresos.
+Luego procede a crear los hilos trabajadores.
+Los hilos trabajadores realizan un recorrido similiar al mencionado anteriormente,
+con la única diferencia siguen explorando directorios mientras la cola de archivos
+por explorar no esté vacía.
+Después el hilo principal espera a que los trabajadores terminen, una vez
+ocurra esto, se imprimee el resultado y se libera la memoria utilizada.
